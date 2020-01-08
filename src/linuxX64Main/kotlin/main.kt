@@ -3,19 +3,19 @@
 package org.example.image_show
 
 import gtk3.GApplication
+import gtk3.GtkWindowPosition
 import gtk3.gpointer
 import kotlinx.cinterop.CPointer
 import kotlinx.cinterop.staticCFunction
-import org.guivista.core.Application
-import org.guivista.core.fetchEmptyDataPointer
-import org.guivista.core.window.AppWindow
+import org.gui_vista.core.Application
+import org.gui_vista.core.fetchEmptyDataPointer
 
-private lateinit var mainWin: AppWindow
+private lateinit var mainWin: MainWindow
 private var activateHandlerId = 0uL
 
 fun main() {
     Application(id = "org.example.image-show").use {
-        mainWin = AppWindow(this)
+        mainWin = MainWindow(this)
         activateHandlerId = connectActivateSignal(staticCFunction(::activateApplication), fetchEmptyDataPointer())
         connectShutdownSignal(staticCFunction(::shutdownApplication), fetchEmptyDataPointer())
         println("Application Status: ${run()}")
@@ -28,6 +28,7 @@ private fun activateApplication(app: CPointer<GApplication>, userData: gpointer)
     mainWin.createUi {
         title = "Image Show"
         changeDefaultSize(width = 400, height = 400)
+        changePosition(GtkWindowPosition.GTK_WIN_POS_CENTER)
         visible = true
     }
 }
