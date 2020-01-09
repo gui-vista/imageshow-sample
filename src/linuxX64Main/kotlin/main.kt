@@ -25,7 +25,9 @@ fun main() {
 @Suppress("UNUSED_PARAMETER")
 private fun activateApplication(app: CPointer<GApplication>, userData: gpointer) {
     println("Activating application...")
+    println("Application ID: ${Application(appPtr = app).appId}")
     mainWin.createUi {
+        resizable = false
         title = "Image Show"
         changeDefaultSize(width = 400, height = 400)
         changePosition(GtkWindowPosition.GTK_WIN_POS_CENTER)
@@ -35,8 +37,5 @@ private fun activateApplication(app: CPointer<GApplication>, userData: gpointer)
 
 private fun shutdownApplication(app: CPointer<GApplication>, @Suppress("UNUSED_PARAMETER") userData: gpointer) {
     println("Shutting down application...")
-    with(Application(appPtr = app)) {
-        disconnectSignal(activateHandlerId)
-        println("Application ID: $appId")
-    }
+    Application(appPtr = app).disconnectSignal(activateHandlerId)
 }
