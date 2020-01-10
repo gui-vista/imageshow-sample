@@ -2,13 +2,13 @@
 
 package org.example.image_show
 
+import glib2.gpointer
 import gtk3.GApplication
 import gtk3.GtkWindowPosition
-import gtk3.gpointer
 import kotlinx.cinterop.CPointer
 import kotlinx.cinterop.staticCFunction
-import org.gui_vista.core.Application
-import org.gui_vista.core.fetchEmptyDataPointer
+import org.guiVista.gui.Application
+import org.guiVista.core.fetchEmptyDataPointer
 
 private lateinit var mainWin: MainWindow
 private var activateHandlerId = 0uL

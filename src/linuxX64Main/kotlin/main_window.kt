@@ -2,21 +2,21 @@
 
 package org.example.image_show
 
+import glib2.gpointer
 import gtk3.GtkAlign
 import gtk3.GtkOrientation
 import gtk3.GtkToolButton
-import gtk3.gpointer
 import kotlinx.cinterop.CPointer
 import kotlinx.cinterop.staticCFunction
 import kotlinx.cinterop.toKString
-import org.gui_vista.core.Application
-import org.gui_vista.core.fetchEmptyDataPointer
-import org.gui_vista.core.layout.Container
-import org.gui_vista.core.layout.boxLayout
-import org.gui_vista.core.widget.display.imageWidget
-import org.gui_vista.core.widget.tool.item.toolButtonWidget
-import org.gui_vista.core.widget.tool.toolBarWidget
-import org.gui_vista.core.window.AppWindow
+import org.guiVista.core.fetchEmptyDataPointer
+import org.guiVista.gui.Application
+import org.guiVista.gui.layout.Container
+import org.guiVista.gui.layout.boxLayout
+import org.guiVista.gui.widget.display.imageWidget
+import org.guiVista.gui.widget.tool.item.toolButtonWidget
+import org.guiVista.gui.widget.tool.toolBarWidget
+import org.guiVista.gui.window.AppWindow
 import platform.posix.getenv
 
 class MainWindow(app: Application) : AppWindow(app) {

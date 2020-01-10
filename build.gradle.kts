@@ -14,7 +14,7 @@ kotlin {
         compilations.getByName("main") {
             dependencies {
                 val guiVistaCoreVer = "0.1-SNAPSHOT"
-                implementation("org.guivista:guivista-core-linuxx64:$guiVistaCoreVer")
+                implementation("org.guivista:guivista-gui-linuxx64:$guiVistaCoreVer")
             }
         }
         binaries {
