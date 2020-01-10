@@ -13,13 +13,20 @@ kotlin {
     linuxX64 {
         compilations.getByName("main") {
             dependencies {
-                val guiVistaCoreVer = "0.1-SNAPSHOT"
-                implementation("org.guivista:guivista-gui-linuxx64:$guiVistaCoreVer")
+                val guiVistaVer = "0.1-SNAPSHOT"
+                implementation("org.guivista:guivista-gui-linuxx64:$guiVistaVer")
+                implementation("org.guivista:guivista-io-linuxx64:$guiVistaVer")
             }
         }
         binaries {
             executable("image_show") {
                 entryPoint = "org.example.image_show.main"
+            }
+        }
+
+        sourceSets {
+            @Suppress("UNUSED_VARIABLE") val linuxX64Main by getting {
+                languageSettings.useExperimentalAnnotation("kotlin.ExperimentalUnsignedTypes")
             }
         }
     }
