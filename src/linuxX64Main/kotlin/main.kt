@@ -21,7 +21,7 @@ private const val TIF_EXT = ".tif"
 private const val JPEG_EXT = ".jpeg"
 private val picturesDir = File.fromPath("${getenv("HOME")?.toKString()}/Pictures")
 val picturesDirPath = picturesDir.path
-val images by lazy { fetchImageFiles(picturesDir) }
+val imageNames by lazy { fetchImageFiles(picturesDir) }
 private lateinit var mainWin: MainWindow
 private var activateHandlerId = 0uL
 
@@ -36,9 +36,9 @@ fun main() {
 }
 
 private fun printImageNames() {
-    if (images.isNotEmpty()) {
+    if (imageNames.isNotEmpty()) {
         println("-- Images (from $picturesDirPath) --")
-        images.forEach { println("* $it") }
+        imageNames.forEach { println("* $it") }
     }
 }
 
@@ -63,7 +63,6 @@ private fun activateApplication(app: CPointer<GApplication>, userData: gpointer)
     println("Activating application...")
     println("Application ID: ${Application(appPtr = app).appId}")
     mainWin.createUi {
-        resizable = false
         title = "Image Show"
         changeDefaultSize(width = 400, height = 400)
         changePosition(GtkWindowPosition.GTK_WIN_POS_CENTER)
