@@ -10,7 +10,7 @@ import kotlinx.cinterop.CPointer
 import kotlinx.cinterop.StableRef
 import kotlinx.cinterop.asStableRef
 import kotlinx.cinterop.staticCFunction
-import org.guiVista.gui.Application
+import org.guiVista.gui.GuiApplication
 import org.guiVista.gui.layout.Container
 import org.guiVista.gui.layout.boxLayout
 import org.guiVista.gui.widget.display.imageWidget
@@ -20,7 +20,7 @@ import org.guiVista.gui.window.AppWindow
 
 private const val NO_IMAGE_POS = -1
 
-class MainWindow(app: Application) : AppWindow(app) {
+class MainWindow(app: GuiApplication) : AppWindow(app) {
     private var imagePos = NO_IMAGE_POS
     private val nextBtn by lazy { createNextBtn() }
     private val prevBtn by lazy { createPrevBtn() }
