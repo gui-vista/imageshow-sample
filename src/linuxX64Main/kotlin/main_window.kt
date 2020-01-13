@@ -37,10 +37,14 @@ class MainWindow(app: Application) : AppWindow(app) {
     }
 
     private fun createNextBtn() = toolButtonWidget(iconWidget = null, label = "Next") {
+        iconName = "go-next"
+        tooltipText = "Next image"
         connectClickedSignal(staticCFunction(::nextBtnClicked), stableRef.asCPointer())
     }
 
     private fun createPrevBtn() = toolButtonWidget(iconWidget = null, label = "Previous") {
+        iconName = "go-previous"
+        tooltipText = "Previous image"
         connectClickedSignal(staticCFunction(::prevBtnClicked), stableRef.asCPointer())
     }
 
