@@ -29,6 +29,7 @@ fun main() {
     printImageNames()
     GuiApplication(id = "org.example.image-show").use {
         mainWin = MainWindow(this)
+        // Connect the "activate" signal, and get the Handler ID to disconnect the signal later.
         activateHandlerId = connectActivateSignal(staticCFunction(::activateApplication), fetchEmptyDataPointer())
         connectShutdownSignal(staticCFunction(::shutdownApplication), fetchEmptyDataPointer())
         println("Application Status: ${run()}")
@@ -50,6 +51,7 @@ private fun fetchImageFiles(dir: File): Array<String> {
         var fileInfo = enumerator?.nextFile()
         while (fileInfo != null) {
             tmp += fileInfo.name
+            // It is important to close fileInfo otherwise a memory leak WILL occur.
             fileInfo.close()
             fileInfo = enumerator?.nextFile()
         }
@@ -61,6 +63,7 @@ private fun fetchImageFiles(dir: File): Array<String> {
 @Suppress("UNUSED_PARAMETER")
 private fun activateApplication(app: CPointer<GApplication>, userData: gpointer) {
     println("Activating application...")
+    // Making use of the CPointer Event Reference technique to gain access to state.
     println("Application ID: ${GuiApplication(appPtr = app).appId}")
     mainWin.createUi {
         title = "Image Show"

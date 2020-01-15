@@ -25,6 +25,8 @@ class MainWindow(app: GuiApplication) : AppWindow(app) {
     private val nextBtn by lazy { createNextBtn() }
     private val prevBtn by lazy { createPrevBtn() }
     private val image by lazy { createImage() }
+    // This is needed in order to access a MainWindow instance from a slot (event handler). When the stable reference
+    // is no longer used it should be disposed of (via dispose function) ASAP to prevent memory leaks from occurring.
     val stableRef = StableRef.create(this)
 
     override fun createMainLayout(): Container? = boxLayout(orientation = GtkOrientation.GTK_ORIENTATION_VERTICAL) {
@@ -89,11 +91,13 @@ class MainWindow(app: GuiApplication) : AppWindow(app) {
 }
 
 private fun nextBtnClicked(@Suppress("UNUSED_PARAMETER") button: CPointer<GtkToolButton>?, userData: gpointer) {
+    // Unpack userData as a stable reference to access the MainWindow instance in this slot (event handler).
     val mainWin = userData.asStableRef<MainWindow>().get()
     mainWin.nextImage()
 }
 
 private fun prevBtnClicked(@Suppress("UNUSED_PARAMETER") button: CPointer<GtkToolButton>?, userData: gpointer) {
+    // Unpack userData as a stable reference to access the MainWindow instance in this slot (event handler).
     val mainWin = userData.asStableRef<MainWindow>().get()
     mainWin.previousImage()
 }
