@@ -1,0 +1,3 @@
+linkerOpts = -lgio-2.0
+linkerOpts.linux_x64 = -L/usr/lib/x86_64-linux-gnu
+linkerOpts.linux_arm32_hfp = -L/mnt/pi_image/usr/lib/arm-linux-gnueabihf
