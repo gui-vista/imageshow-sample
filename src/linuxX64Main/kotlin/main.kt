@@ -22,7 +22,7 @@ private const val JPEG_EXT = ".jpeg"
 private val picturesDir = File.fromPath("${getenv("HOME")?.toKString()}/Pictures")
 val picturesDirPath = picturesDir.path
 val imageNames by lazy { fetchImageFiles(picturesDir) }
-private lateinit var mainWin: MainWindow
+internal lateinit var mainWin: MainWindow
 private var activateHandlerId = 0uL
 
 fun main() {
@@ -62,7 +62,6 @@ private fun fetchImageFiles(dir: File): Array<String> {
 
 @Suppress("UNUSED_PARAMETER")
 private fun activateApplication(app: CPointer<GApplication>, userData: gpointer) {
-    println("Activating application...")
     // Making use of the CPointer Event Reference technique to gain access to state.
     println("Application ID: ${GuiApplication(appPtr = app).appId}")
     mainWin.createUi {
@@ -76,4 +75,5 @@ private fun activateApplication(app: CPointer<GApplication>, userData: gpointer)
 private fun shutdownApplication(app: CPointer<GApplication>, @Suppress("UNUSED_PARAMETER") userData: gpointer) {
     println("Shutting down application...")
     GuiApplication(appPtr = app).disconnectSignal(activateHandlerId)
+    mainWin.close()
 }

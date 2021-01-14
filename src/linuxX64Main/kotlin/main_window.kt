@@ -7,9 +7,8 @@ import gtk3.GtkAlign
 import gtk3.GtkOrientation
 import gtk3.GtkToolButton
 import kotlinx.cinterop.CPointer
-import kotlinx.cinterop.StableRef
-import kotlinx.cinterop.asStableRef
 import kotlinx.cinterop.staticCFunction
+import org.guiVista.core.fetchEmptyDataPointer
 import org.guiVista.gui.GuiApplication
 import org.guiVista.gui.layout.Container
 import org.guiVista.gui.layout.boxLayout
@@ -25,11 +24,8 @@ class MainWindow(app: GuiApplication) : AppWindow(app) {
     private val nextBtn by lazy { createNextBtn() }
     private val prevBtn by lazy { createPrevBtn() }
     private val image by lazy { createImage() }
-    // This is needed in order to access a MainWindow instance from a slot (event handler). When the stable reference
-    // is no longer used it should be disposed of (via dispose function) ASAP to prevent memory leaks from occurring.
-    val stableRef = StableRef.create(this)
 
-    override fun createMainLayout(): Container? = boxLayout(orientation = GtkOrientation.GTK_ORIENTATION_VERTICAL) {
+    override fun createMainLayout(): Container = boxLayout(orientation = GtkOrientation.GTK_ORIENTATION_VERTICAL) {
         this += toolBarWidget {
             this += prevBtn
             this += nextBtn
@@ -41,13 +37,13 @@ class MainWindow(app: GuiApplication) : AppWindow(app) {
     private fun createNextBtn() = toolButtonWidget(iconWidget = null, label = "Next") {
         iconName = "go-next"
         tooltipText = "Next image"
-        connectClickedSignal(staticCFunction(::nextBtnClicked), stableRef.asCPointer())
+        connectClickedSignal(staticCFunction(::nextBtnClicked), fetchEmptyDataPointer())
     }
 
     private fun createPrevBtn() = toolButtonWidget(iconWidget = null, label = "Previous") {
         iconName = "go-previous"
         tooltipText = "Previous image"
-        connectClickedSignal(staticCFunction(::prevBtnClicked), stableRef.asCPointer())
+        connectClickedSignal(staticCFunction(::prevBtnClicked), fetchEmptyDataPointer())
     }
 
     override fun resetFocus() {
@@ -83,21 +79,14 @@ class MainWindow(app: GuiApplication) : AppWindow(app) {
             image.tooltipText = imageNames[imagePos]
         }
     }
-
-    override fun close() {
-        super.close()
-        stableRef.dispose()
-    }
 }
 
-private fun nextBtnClicked(@Suppress("UNUSED_PARAMETER") button: CPointer<GtkToolButton>?, userData: gpointer) {
-    // Unpack userData as a stable reference to access the MainWindow instance in this slot (event handler).
-    val mainWin = userData.asStableRef<MainWindow>().get()
+@Suppress("UNUSED_PARAMETER")
+private fun nextBtnClicked(button: CPointer<GtkToolButton>?, userData: gpointer) {
     mainWin.nextImage()
 }
 
-private fun prevBtnClicked(@Suppress("UNUSED_PARAMETER") button: CPointer<GtkToolButton>?, userData: gpointer) {
-    // Unpack userData as a stable reference to access the MainWindow instance in this slot (event handler).
-    val mainWin = userData.asStableRef<MainWindow>().get()
+@Suppress("UNUSED_PARAMETER")
+private fun prevBtnClicked(button: CPointer<GtkToolButton>?, userData: gpointer) {
     mainWin.previousImage()
 }
